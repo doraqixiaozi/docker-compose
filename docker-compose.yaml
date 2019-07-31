@@ -1,0 +1,63 @@
+version: "1"
+services:
+  mysql:
+    container_name: mysql
+    hostname: mysql
+    image: registry.cn-hangzhou.aliyuncs.com/choerodon-tools/mysql:5.7.17
+    ports:
+    - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+    - c:/data-server/mysql/mysql_data/:/var/lib/mysql/:rw
+    - c:/data-server/mysql/mysql_db_cnf:/etc/mysql/:rw
+    expose:
+    - "3306"
+    networks:
+    - "c7nNetwork"
+    privileged: true    
+  jenkins:
+    container_name: jenkins
+    hostname: jenkins
+    image: jenkins/jenkins
+    ports:
+    - "9090:8080"
+    - "50000:50000"
+    volumes:
+    - c:/data-server/jenkins:/home/jenkins_home
+    expose:
+    - "9090"
+    - "50000"
+    networks:
+    - "c7nNetwork"
+    privileged: true  
+  minio:
+    container_name: minio
+    hostname: minio
+    image: minio/minio:RELEASE.2018-05-25T19-49-13Z
+    ports:
+    - "9000:9000"
+    volumes:
+    - c:/data-server/minio/data:/data
+    - c:/data-server/minio/config:/root/.minio
+    expose:
+    - "9000"
+    networks:
+    - "c7nNetwork"
+    privileged: true
+  redis:
+    container_name: redis
+    hostname: redis
+    image: redis:4.0.11
+    ports:
+    - "6379:6379"
+    volumes:
+    - c:/hzero/data-server/redis/data:/data
+    expose:
+    - "6379"
+    networks:
+    - "c7nNetwork"
+    privileged: true
+networks:
+  c7nNetwork:
+    driver: bridge
