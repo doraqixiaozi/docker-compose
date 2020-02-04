@@ -1,4 +1,4 @@
-version: "1"
+version: "2"
 services:
   mysql:
     container_name: mysql
@@ -52,9 +52,58 @@ services:
     ports:
     - "6379:6379"
     volumes:
-    - c:/hzero/data-server/redis/data:/data
+    - c:/data-server/redis/data:/data
     expose:
     - "6379"
+    networks:
+    - "c7nNetwork"
+    privileged: true
+  es:
+    container_name: es
+    hostname: es
+    image: elasticsearch:7.2.0
+    ports:
+    - "9200:9200"
+    - "9300:9300"
+    volumes:
+    - c:/data-server/elasticsearch/data:/data
+    expose:
+    - "9200"
+    - "9300"
+    networks:
+    - "c7nNetwork"
+    privileged: true
+  mongo:
+    container_name: mongo
+    hostname: mongo
+    image: mongo
+    ports:
+    - "27017:27017"
+    volumes:
+    - c:/data-server/mongo/data/db:/data/db
+    expose:
+    - "27017"
+    networks:
+    - "c7nNetwork"
+    privileged: true
+  rabbitmq:
+    container_name: rabbitmq
+    hostname: rabbitmq
+    image: rabbitmq:management
+    ports:
+    - "5671:5671"
+    - "5672:5672"
+    - "4369:4369"
+    - "25672:25672"
+    - "15671:15671"
+    - "15672:15672"
+    expose:
+    - "5671"
+    - "5672"
+    - "4369"
+    - "25672"
+    - "15671"
+    - "15672"
     networks:
     - "c7nNetwork"
     privileged: true
