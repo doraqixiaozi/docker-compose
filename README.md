@@ -2,3 +2,4 @@
  1.将data-server.zip解压放至c盘根目录  
  2.在docker-compose.yaml文件同级目录下打开git bash 执行docker-compose up -d  
  3.执行docker ps 或docker-compose ps 查看容器是否启动  
+ 4.注意：mongodb无法在windows上做文件映射，故不指定
